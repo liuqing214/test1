@@ -3,12 +3,13 @@ import axios from 'axios'
 export function request(config) {
 	//1.创建axios实例
 	const instance = axios.create({
-		baseURL: 'http://127.0.0.1:8888/api/private/v1/',
+		baseURL: 'https://www.fastmock.site/mock/d7e559f10b30ae923a2031d2b396184f/vuetest01',
 		timeout: 5000
 	})
 
-	//2.axios的拦截
+	//2.axios的请求拦截
 	instance.interceptors.request.use(config =>{
+		config.headers.Authorization = window.sessionStorage.getItem('token')
 		return config
 	}, err => {
 	})

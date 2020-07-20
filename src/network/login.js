@@ -1,12 +1,13 @@
 import {request} from './request.js'
 
-export function getLogindata(username, password) {
+export function getLogindata(form) {
   return request({
-    url: 'login',
-    method: 'poat',
+    url: '/login',
+    method: 'post',
     data: {
-      username,
-      password
+      form
+      // username: form.username,
+      // password: form.password
     }
   })
 }
@@ -14,6 +15,7 @@ export function getLogindata(username, password) {
 // export function getloggin() {
 //   return request({
 //     url: '/home/data',
+//  get请求用params
 //     params: {
 //       type,
 //       page

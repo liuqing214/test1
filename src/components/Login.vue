@@ -3,7 +3,7 @@
     <div class="box">
       <!-- 头像区域 -->
       <div class="avatar_img">
-        <img src="../assets/img/logo.png" alt="" srcset="">
+        <img src="~@/assets/img/logo.png" alt="" srcset="">
       </div>
       <!-- 登录表单区域 -->
       <el-form ref="loginFormRef" :model="form" :rules="from_rules" label-width="0px" class="from_login">
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {getLogindata} from '@/network/login'
+import {getLogindata} from '@/network/login.js'
 
 export default {
   name:'Login',
@@ -50,30 +50,26 @@ export default {
     }
   },
   methods: {
+  //一般方法
+    //重置表单
     refFrom() {
       this.$refs.loginFormRef.resetFields()
     },
     login() {
+      //登录验证
       this.$refs.loginFormRef.validate(valid => {
-        console.log(valid)
         if (valid) {
-          // getLogindata(username, password).then(res => {
-          //   username = this.form.username
-          //   password = this.form.password
-          // })
-          this.$router.push('/home')
-        } else {
-          this.$message.error('登录失败')
+          //验证通过>网络请求
+          getLogindata(this.form).then(res => {
+            // console.log(res);
+              if (res.meta.status !== 200) {
+                this.$message.error('登录失败')
+              } else {
+                  window.sessionStorage.setItem('token', res.data.token)
+                  this.$router.push('/home')
+              }
+          })
         }
-        
-        // if (res.meta.status !== 200) {
-        //   this.$message.error('登录失败')
-        // } else {
-        //   this.$message.success('登录成功')
-            
-        //   window.sessionStorage.setItem('token', data.res.token)
-        //   this.$router.push('/home')
-        // }
       })
     }
   }
